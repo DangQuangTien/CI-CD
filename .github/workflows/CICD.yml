@@ -6,8 +6,8 @@ on:
             - develop
 permissions:
   contents: write
-  pages: write      # to deploy to Pages
-  id-token: write   # optional, remove if not using OIDC
+  pages: write
+  id-token: write   # Optional, for OIDC if needed
 
 jobs:
   build-and-test:
@@ -28,7 +28,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
-          enablement: true   # Add this to enable Pages if it's not enabled
+          enablement: true   # Ensure Pages is enabled if it is not already
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -47,3 +47,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}  # Replace if needed
