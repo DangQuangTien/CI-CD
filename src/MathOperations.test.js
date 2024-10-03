@@ -2,67 +2,71 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import MathOperations from './MathOperations';
 
-test('performs addition correctly', () => {
+test('calculates expression correctly', () => {
   render(<MathOperations />);
-  
-  const inputs = screen.getAllByRole('spinbutton');
-  const addButton = screen.getByText('Add');
-  
-  fireEvent.change(inputs[0], { target: { value: '5' } });
-  fireEvent.change(inputs[1], { target: { value: '3' } });
-  fireEvent.click(addButton);
-  
+
+  const inputField = screen.getByPlaceholderText('Type an expression...');
+  const calculateButton = screen.getByText('=');
+
+  // Input an expression
+  fireEvent.change(inputField, { target: { value: '5 + 3' } });
+  fireEvent.click(calculateButton);
+
+  // Check if the result is displayed correctly
   expect(screen.getByText('Result: 8')).toBeInTheDocument();
 });
 
-test('performs subtraction correctly', () => {
+test('calculates addition correctly', () => {
   render(<MathOperations />);
-  
-  const inputs = screen.getAllByRole('spinbutton');
-  const subtractButton = screen.getByText('Subtract');
-  
-  fireEvent.change(inputs[0], { target: { value: '10' } });
-  fireEvent.change(inputs[1], { target: { value: '4' } });
-  fireEvent.click(subtractButton);
-  
+
+  const inputField = screen.getByPlaceholderText('Type an expression...');
+  const calculateButton = screen.getByText('=');
+
+  fireEvent.change(inputField, { target: { value: '5 + 3' } });
+  fireEvent.click(calculateButton);
+  expect(screen.getByText('Result: 8')).toBeInTheDocument();
+});
+
+test('calculates subtraction correctly', () => {
+  render(<MathOperations />);
+
+  const inputField = screen.getByPlaceholderText('Type an expression...');
+  const calculateButton = screen.getByText('=');
+
+  fireEvent.change(inputField, { target: { value: '10 - 4' } });
+  fireEvent.click(calculateButton);
   expect(screen.getByText('Result: 6')).toBeInTheDocument();
 });
 
-test('performs multiplication correctly', () => {
+test('calculates multiplication correctly', () => {
   render(<MathOperations />);
-  
-  const inputs = screen.getAllByRole('spinbutton');
-  const multiplyButton = screen.getByText('Multiply');
-  
-  fireEvent.change(inputs[0], { target: { value: '6' } });
-  fireEvent.change(inputs[1], { target: { value: '7' } });
-  fireEvent.click(multiplyButton);
-  
+
+  const inputField = screen.getByPlaceholderText('Type an expression...');
+  const calculateButton = screen.getByText('=');
+
+  fireEvent.change(inputField, { target: { value: '6 * 7' } });
+  fireEvent.click(calculateButton);
   expect(screen.getByText('Result: 42')).toBeInTheDocument();
 });
 
-test('performs division correctly', () => {
+test('calculates division correctly', () => {
   render(<MathOperations />);
-  
-  const inputs = screen.getAllByRole('spinbutton');
-  const divideButton = screen.getByText('Divide');
-  
-  fireEvent.change(inputs[0], { target: { value: '15' } });
-  fireEvent.change(inputs[1], { target: { value: '3' } });
-  fireEvent.click(divideButton);
-  
+
+  const inputField = screen.getByPlaceholderText('Type an expression...');
+  const calculateButton = screen.getByText('=');
+
+  fireEvent.change(inputField, { target: { value: '20 / 4' } });
+  fireEvent.click(calculateButton);
   expect(screen.getByText('Result: 5')).toBeInTheDocument();
 });
 
-test('handles division by zero', () => {
+test('handles invalid expression', () => {
   render(<MathOperations />);
-  
-  const inputs = screen.getAllByRole('spinbutton');
-  const divideButton = screen.getByText('Divide');
-  
-  fireEvent.change(inputs[0], { target: { value: '10' } });
-  fireEvent.change(inputs[1], { target: { value: '0' } });
-  fireEvent.click(divideButton);
-  
-  expect(screen.getByText('Result: Error: Division by zero')).toBeInTheDocument();
+
+  const inputField = screen.getByPlaceholderText('Type an expression...');
+  const calculateButton = screen.getByText('=');
+
+  fireEvent.change(inputField, { target: { value: '5 + ' } });
+  fireEvent.click(calculateButton);
+  expect(screen.getByText('Invalid Expression')).toBeInTheDocument();
 });
