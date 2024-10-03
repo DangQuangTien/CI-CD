@@ -1,5 +1,6 @@
 import React from 'react';
 import MathOperations from './MathOperations';
+import './App.css'; // Importing the CSS file
 
 function App() {
   return (
