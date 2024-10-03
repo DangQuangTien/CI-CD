@@ -7,7 +7,7 @@ on:
 permissions:
   contents: write
   pages: write      # to deploy to Pages
-  id-token: write   # to verify the deployment originates from an appropriate source
+  id-token: write   # optional, remove if not using OIDC
 
 jobs:
   build-and-test:
@@ -38,8 +38,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build-and-test
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'  # Adjust if deploying from multiple branches
     steps:
+      - name: Download artifact
+        uses: actions/download-pages-artifact@v1
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
