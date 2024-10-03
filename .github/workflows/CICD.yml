@@ -6,8 +6,8 @@ on:
             - develop
 permissions:
   contents: write
-  pages: write
-  id-token: write   # Optional, for OIDC if needed
+  pages: write      # to deploy to Pages
+  id-token: write   # to verify the deployment originates from an appropriate source
 
 jobs:
   build-and-test:
@@ -27,8 +27,6 @@ jobs:
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true   # Ensure Pages is enabled if it is not already
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -42,10 +40,6 @@ jobs:
     needs: build-and-test
     if: github.ref == 'refs/heads/main'
     steps:
-      - name: Download artifact
-        uses: actions/download-pages-artifact@v1
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          github_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}  # Replace if needed
